@@ -9,9 +9,12 @@ listen_socket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 listen_socket.bind((HOST, PORT))
 listen_socket.listen(1)
 
+
 def main(client_connection, client_address):
     request = client_connection.recv(1024)
 
+    request_list = str(request.decode('utf-8').strip("\\r\\n")).split(' ')
+    print(request_list)
 
 
 while True:
