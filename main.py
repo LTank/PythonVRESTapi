@@ -13,8 +13,7 @@ listen_socket.listen(1)
 def main(client_connection, client_address):
     request = client_connection.recv(1024)
 
-    request_list = str(request.decode('utf-8').strip("\\r\\n")).split(' ')
-    print(request_list)
+    HTTPHandler.response_parsing(request)
 
 
 while True:
