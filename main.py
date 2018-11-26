@@ -12,8 +12,10 @@ listen_socket.listen(1)
 
 def main(client_connection, client_address):
     request = client_connection.recv(1024)
-
     HTTPHandler.response_parsing(request)
+
+    HTTPHandler
+
 
 
 while True:

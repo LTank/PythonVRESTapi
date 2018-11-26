@@ -17,5 +17,14 @@
 
 def response_parsing(request):
     request_list = str(request.decode('utf-8').strip("\\r\\n")).splitlines()
-    print(type(request_list))
-    print(request_list[7])
+
+    # Takes the first index of request_list and splits it up to get the GET/POST/PUT response and the location
+    # in separate values.
+    GPP_and_location = request_list[0].split(' ')
+    GPP_response = GPP_and_location[0]
+    location = GPP_and_location[1]
+
+    # Gets the json object from the request_List
+    json_object = request_list[7]
+
+
