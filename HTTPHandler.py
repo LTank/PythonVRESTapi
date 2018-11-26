@@ -16,12 +16,12 @@ class HTTPRequest:
         return f'''Request:\t\t"{self.request}\nPath:\t\t\t"{self.path}\nHTTP method:\t"{self.method}\nJSON payload:\t\"{self.json}'''
 
 
-# Returns dict of JSON objects.
+# Returns dict of JSON objects, if payload content-type is json.
 def jsonhandler(request):
-    # TODO Make a sure-way to find (all) payload in request
-    # maybe loads[sic] from after the empty token in request.
-    if request[4] == "Content-Type: application/json": # inconsistent whitespace in responses may cause problems
-        return json.loads(request[-1])
+    if any("Content-Type: application/json" in s for s in request):
+        for (e, i) in enumerate(request):
+            if i == "":
+                return json.loads("".join(request[e:]))
 
 # Returns decoded socket response as a list
 def response_parsing(request):

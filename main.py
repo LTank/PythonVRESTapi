@@ -17,8 +17,11 @@ def main(client_connection, client_address):
     # Acting on the HTTP method type
     MethodObject.action(request)
 
+
     # for (i,e) in enumerate(request.request):
     #     print(i, e)
+
+    print(request)
 
 while True:
     client_connection, client_address = listen_socket.accept()
