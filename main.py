@@ -1,6 +1,7 @@
-from socket import *
+from socket import AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR, socket
 import _thread
 import HTTPHandler
+import MethodObject
 
 HOST, PORT = '', 5000
 
@@ -11,18 +12,13 @@ listen_socket.listen(1)
 
 
 def main(client_connection, client_address):
-    request = client_connection.recv(1024)
-    request_raw = HTTPHandler.response_parsing(request)
+    # Making a python obj from a socket obj.
+    request = HTTPHandler.HTTPRequest(client_connection.recv(1024))
+    # Acting on the HTTP method type
+    MethodObject.action(request)
 
-    # Takes the first index of request_list and splits it up to get the GET/POST/PUT response and the location
-    # in separate values.
-    GPP_and_location = request_raw[0].split(' ')
-    GPP_response = GPP_and_location[0]
-    location = GPP_and_location[1]
-
-    # Gets the json object from the request_List
-    json_object = request_raw[7]
-
+    # for (i,e) in enumerate(request.request):
+    #     print(i, e)
 
 while True:
     client_connection, client_address = listen_socket.accept()
