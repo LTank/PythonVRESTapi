@@ -1,8 +1,7 @@
-import sqlite3
 class action:
     def __init__(self, request):
         self.request = request
-        db = sqlite3.connect('data/mydb')
+
 
         def post():
             # TODO
