@@ -5,8 +5,9 @@ import MethodObject
 
 HOST, PORT = '', 5000
 
-listen_socket = socket(AF_INET, SOCK_STREAM)
-listen_socket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+# Setting up socket
+listen_socket = socket(AF_INET, SOCK_STREAM)  # IPv4 and TCP
+listen_socket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)  # SOL_SOCKET is the level of address reuse option (1=yes/true).
 listen_socket.bind((HOST, PORT))
 listen_socket.listen(1)
 
@@ -16,7 +17,6 @@ def main(client_connection, client_address):
     request = HTTPHandler.HTTPRequest(client_connection.recv(1024))
     # Acting on the HTTP method type
     MethodObject.action(request)
-
 
     # for (i,e) in enumerate(request.request):
     #     print(i, e)
