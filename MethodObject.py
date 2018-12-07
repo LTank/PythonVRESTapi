@@ -21,7 +21,9 @@ class action:
             except:
                 usr = ""
 
-            request.response = json.dumps(getallmessages())
+            response = f"HTTP/1.1 200 OK\n\n{json.dumps(getallmessages())}"
+
+            request.response = response
 
         def put():
             print("Replacing JSON object with: ", request.json)

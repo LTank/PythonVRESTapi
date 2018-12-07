@@ -3,7 +3,7 @@ import _thread
 import HTTPHandler
 import MethodObject
 
-HOST, PORT = '', 5000
+HOST, PORT = '', 9000
 
 # Setting up socket
 listen_socket = socket(AF_INET, SOCK_STREAM)  # IPv4 and TCP
@@ -22,10 +22,11 @@ def main(client_connection, client_address):
     #     print(i, e)
 
     print(request)
-    print(request.response)
+    # print(request.response)
 
-    print(type(request.response))
+
     client_connection.sendall(request.response.encode())
+
 
 
 
