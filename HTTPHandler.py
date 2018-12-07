@@ -8,6 +8,7 @@ class HTTPRequest:
         self.path = get_path(request_text)
         self.method = get_method(request_text)
         self.json = jsonhandler(request_text)
+        self.response = ""
 
         # Implement an error functionality
         # self.error_code = self.error_message = None
@@ -22,6 +23,8 @@ def jsonhandler(request):
         for (e, i) in enumerate(request):
             if i == "":
                 return json.loads("".join(request[e:]))
+    else:
+        return ""
 
 # Returns decoded socket response as a list
 def response_parsing(request):

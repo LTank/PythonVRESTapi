@@ -22,6 +22,12 @@ def main(client_connection, client_address):
     #     print(i, e)
 
     print(request)
+    print(request.response)
+
+    print(type(request.response))
+    client_connection.sendall(request.response.encode())
+
+
 
 while True:
     client_connection, client_address = listen_socket.accept()

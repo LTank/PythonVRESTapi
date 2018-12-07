@@ -1,17 +1,28 @@
+import json
+
+from db import *
+
+tosend = ""
 class action:
     def __init__(self, request):
         self.request = request
+        con = database()
 
 
         def post():
-            # TODO
+            if (request.json == ""):
+                return ""
             print("Saving:", request.json)
-        def get():
-            # TODO
-            # Lookup in db
-            path = request.path[0]
 
-            print("Retrieving:", request.json)
+        def get():
+            model = request.path[0]
+            try:
+                usr = request.path[1].split("=")[1]
+            except:
+                usr = ""
+
+            request.response = json.dumps(getallmessages())
+
         def put():
             print("Replacing JSON object with: ", request.json)
         def patch():
