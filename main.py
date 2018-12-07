@@ -21,14 +21,12 @@ def main(client_connection, client_address):
     # for (i,e) in enumerate(request.request):
     #     print(i, e)
 
-    print(request)
+    print(request.json)
     # print(request.response)
-
 
     client_connection.sendall(request.response.encode())
 
-
-
+    client_connection._real_close()
 
 while True:
     client_connection, client_address = listen_socket.accept()
