@@ -21,7 +21,7 @@ class action:
             except:
                 usr = ""
 
-            response = f"HTTP/1.1 200 OK\n\n{json.dumps(getallmessages())}"
+            response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getallmessages())}"
 
             request.response = response
 

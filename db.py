@@ -35,14 +35,25 @@ def getallmessages():
     cursor.execute('''
     select *
     from msg
-    inner join (SELECT usr_name from usr) usr
+    inner join (SELECT usr_name, usr_id from usr) usr 
+    where usr.usr_id = msg.usr_id
 ''')
 
 
-    payload = cursor.fetchall()
+    temp_payload = cursor.fetchall()
     db.commit()
     db.close()
-    return payload
+
+    finalpayload = {"msgs": []}
+
+    for i in temp_payload:
+        temp_msg = {}
+        temp_msg["msg_id"] = i[0]
+        temp_msg["msg_text"] = i[1]
+        temp_msg["usr_id"] = i[2]
+        temp_msg["usr_name"] = i[3]
+        finalpayload["msgs"].append(temp_msg)
 
 
+    return finalpayload
 
