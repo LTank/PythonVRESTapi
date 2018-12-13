@@ -27,10 +27,8 @@ class database:
 
 def getallmessages():
     # cursor.execute("SELECT * FROM msg")
-
    #  cursor.execute('''select msg_id, msg, usr_id from msg
    # inner join usr on msg.usr_id = usr.usr_id''')
-
 
     cursor.execute('''
     select *
@@ -38,7 +36,6 @@ def getallmessages():
     inner join (SELECT usr_name, usr_id from usr) usr 
     where usr.usr_id = msg.usr_id
 ''')
-
 
     temp_payload = cursor.fetchall()
     db.commit()
@@ -54,6 +51,17 @@ def getallmessages():
         temp_msg["usr_name"] = i[3]
         finalpayload["msgs"].append(temp_msg)
 
-
     return finalpayload
+
+# createUser takes a dict
+def createUser(dict):
+    values_to_insert = [(dict.get('usr_name'), dict.get('usr_pswd'))]
+
+    cursor.executemany('''
+    insert into usr('usr_name','usr_pswd')
+    values (?,?)''', values_to_insert)
+
+    db.commit()
+    db.close()
+
 
