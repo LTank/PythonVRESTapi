@@ -64,4 +64,19 @@ def createUser(dict):
     db.commit()
     db.close()
 
+def getUser(usr_name, usr_pswd):
+
+    cursor.execute(f"select * from usr where usr_name = '{usr_name}' and usr_pswd = '{usr_pswd}'")
+    sqldata = cursor.fetchall()
+    payload = {}
+
+    payload["usr_id"] = sqldata[0][0]
+    payload["usr_name"] = sqldata[0][1]
+    payload["usr_pswd"] = sqldata[0][2]
+
+    db.commit()
+    db.close()
+    return payload
+
+
 

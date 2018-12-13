@@ -33,6 +33,7 @@ def response_parsing(request):
 # Returns the path as a list ie. /[users]/[id]
 def get_path(request):
     path = get_request_line(request)[1].split("/")
+
     if path[1].casefold() != "api".casefold():  # Checks if the request is on /api/ (caseless)
         print("Not an api call")
     else:

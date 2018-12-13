@@ -22,7 +22,7 @@ def main(client_connection, client_address):
     #     print(i, e)
 
     print(request.json)
-    # print(request.response)
+
 
     client_connection.sendall(request.response.encode())
 
