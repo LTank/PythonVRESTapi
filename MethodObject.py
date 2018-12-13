@@ -8,7 +8,6 @@ class action:
         self.request = request
         con = database()
 
-
         def post():
             if (request.json == ""):
                 return ""
@@ -16,30 +15,17 @@ class action:
 
         def get():
             if request.path[0] == "messages":
-                response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getallmessages())}"
+                request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getallmessages())}"
 
             if request.path[0] == "user":
                 login = request.path[1].split("=")
                 login[0] = login[0][:-2]  # removes ?p from username
 
-                response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getUser(login[0], login[1]))}"
+                request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getUser(login[0], login[1]))}"
+            else:
+                if getUser(login[0], login[1]):
 
-
-
-            # model = request.path[0]
-            # print("model", model)
-            # print(request.path[1])
-            # try:
-            #     usr = request.path[1].split("=")[1]
-            #     print("usr", usr)
-            # except:
-            #     usr = ""
-
-
-
-
-
-            request.response = response
+                request.response = f"HTTP/1.1 400 Bad Request"
 
         def put():
             print("Replacing JSON object with: ", request.json)

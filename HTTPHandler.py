@@ -9,6 +9,7 @@ class HTTPRequest:
         self.method = get_method(request_text)
         self.json = jsonhandler(request_text)
         self.response = ""
+        self.status_code = ""
 
         # Implement an error functionality
         # self.error_code = self.error_message = None
