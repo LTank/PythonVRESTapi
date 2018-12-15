@@ -1,6 +1,6 @@
 from socket import AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR, socket
 import _thread
-import HTTPHandler
+from HTTPHandler import HTTPObject
 import MethodObject
 
 HOST, PORT = '', 9000
@@ -13,24 +13,26 @@ listen_socket.listen(1)
 
 
 def main(client_connection, client_address):
+
     # Making a python obj from a socket obj.
-    request = HTTPHandler.HTTPRequest(client_connection.recv(1024))
+    http_object = HTTPObject(client_connection.recv(1024))
+
     # Acting on the HTTP method type
-    MethodObject.action(request)
+    MethodObject.Action(http_object)
 
-    # for (i,e) in enumerate(request.request):
-    #     print(i, e)
+    # Prints values of http_object
+    print("------------------------")
+    for i in http_object.__dict__:
+        print(i + ":", http_object.__dict__.get(i))
 
-    print(request.json)
+    # Sends a response and closes the connection.
+    client_connection.sendall(http_object.response().encode())
+    client_connection.close()
 
-
-    client_connection.sendall(request.response.encode())
-
-    client_connection._real_close()
 
 while True:
     client_connection, client_address = listen_socket.accept()
     try:
         _thread.start_new_thread(main, (client_connection, client_address))
-    except:
+    except:  # TODO Be more specific
         print("Threading error!")

@@ -2,30 +2,55 @@ import json
 
 from db import *
 
-tosend = ""
-class action:
+
+class Action:
     def __init__(self, request):
         self.request = request
         con = database()
 
         def post():
-            if (request.json == ""):
+            if request.json == "":
                 return ""
-            print("Saving:", request.json)
+            else:
+                if type(request.json) is not dict:
+                    request.json = json.loads(request.json)
+
+            if request.URI[0] == "messages":
+                try:
+                    createmessage(request.json)
+                    request.status_code = "HTTP/1.1 200 OK"
+
+                except Exception as e:
+                    print("Failed to create message")
+                    print(e)
+                    request.status_code = "HTTP/1.1 400 Bad Request"
+
+            elif request.URI[0] == "user":
+                try:
+                    createuser(request.json)
+                    request.status_code = "HTTP/1.1 200 OK"
+
+                except Exception as e:
+                    print("Failed to create user")
+                    print(e)
+                    request.status_code = "HTTP/1.1 400 Bad Request"
+
+            else:
+                request.status_code = "HTTP/1.1 400 Bad Request"
 
         def get():
-            if request.path[0] == "messages":
-                request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getallmessages())}"
-
-            if request.path[0] == "user":
-                login = request.path[1].split("=")
+            if request.URI[0] == "messages":
+                # request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getallmessages())}"
+                request.json = json.dumps(getallmessages())
+            elif request.URI[0] == "user":
+                login = request.URI[1].split("=")
                 login[0] = login[0][:-2]  # removes ?p from username
 
-                request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getUser(login[0], login[1]))}"
-            else:
-                if getUser(login[0], login[1]):
+                # request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getUser(login[0], login[1]))}"
+                request.json = json.dumps(getUser(login[0], login[1]))
 
-                request.response = f"HTTP/1.1 400 Bad Request"
+            else:
+                request.status_code = "HTTP/1.1 400 Bad Request"
 
         def put():
             print("Replacing JSON object with: ", request.json)

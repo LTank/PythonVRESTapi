@@ -53,16 +53,7 @@ def getallmessages():
 
     return finalpayload
 
-# createUser takes a dict
-def createUser(dict):
-    values_to_insert = [(dict.get('usr_name'), dict.get('usr_pswd'))]
 
-    cursor.executemany('''
-    insert into usr('usr_name','usr_pswd')
-    values (?,?)''', values_to_insert)
-
-    db.commit()
-    db.close()
 
 def getUser(usr_name, usr_pswd):
 
@@ -75,10 +66,33 @@ def getUser(usr_name, usr_pswd):
         payload["usr_name"] = sqldata[0][1]
         payload["usr_pswd"] = sqldata[0][2]
     except:
-        # TODO change status code
         payload = {}
 
     db.commit()
     db.close()
     return payload
+
+
+# createUser takes a dict
+def createuser(dict):
+    values_to_insert = [(dict.get('usr_name'), dict.get('usr_pswd'))]
+
+    cursor.executemany('''
+    insert into usr('usr_name','usr_pswd')
+    values (?,?)''', values_to_insert)
+
+    db.commit()
+    db.close()
+
+
+def createmessage(dict):
+    values_to_insert = [(dict.get('msg'), dict.get('usr_id'))]
+
+    cursor.executemany('''
+     insert into msg('msg', 'usr_id')
+     values (?,?)''', values_to_insert)
+
+    db.commit()
+    db.close()
+
 
