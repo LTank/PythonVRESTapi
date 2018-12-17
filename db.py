@@ -60,7 +60,7 @@ def getUser(usr_name, usr_pswd):
         payload["usr_name"] = sqldata[0][1]
         payload["usr_pswd"] = sqldata[0][2]
     except:
-        payload = "{}"
+        payload = {}
 
     db.commit()
     db.close()
