@@ -41,6 +41,7 @@ class Action:
         def get():
             if request.URI[0] == "messages":
                 request.json = json.dumps(getallmessages())
+                request.status_code = "HTTP/1.1 200 OK"
 
             elif request.URI[0] == "user":
                 login = request.URI[1].split("=")
