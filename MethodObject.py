@@ -47,6 +47,7 @@ class Action:
                 login = request.URI[1].split("=")
                 login[0] = login[0][:-2]  # removes ?p from username
                 request.json = json.dumps(getUser(login[0], login[1]))
+                request.status_code = "HTTP/1.1 200 OK"
 
             else:
                 request.status_code = "HTTP/1.1 400 Bad Request"
