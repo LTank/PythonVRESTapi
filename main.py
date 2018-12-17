@@ -34,5 +34,5 @@ while True:
     client_connection, client_address = listen_socket.accept()
     try:
         _thread.start_new_thread(main, (client_connection, client_address))
-    except:  # TODO Be more specific
-        print("Threading error!")
+    except Exception as e:
+        print("Threading error! -", e)

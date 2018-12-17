@@ -5,14 +5,14 @@ class HTTPObject:
     def __init__(self, request_text):
         self.request = str(request_text.decode('utf-8').strip("\\r\\n")).splitlines()  # Parses decoded socket response to a list
 
-        self.status_code = "HTTP/1.1 200 OK"  # 200 if ok, 400 if bad request
-        self.content_type = ""  # ie. JSON
+        self.status_code = ""  # 200 if ok, 400 if bad request
+        # self.content_type = ""  # ie. JSON
         self.content_type = get_content_type(self.request)
-        self.json = ""  # JSON payload for POST methods
+        # self.json = ""  # JSON payload for POST methods
         self.json = get_json(self.request, self.content_type)
-        self.method = ""  # eg. POST, GET etc.
+        # self.method = ""  # eg. POST, GET etc.
         self.method = get_method(self.request)
-        self.URI = ""  # eg /users/Andreas
+        # self.URI = ""  # eg /users/Andreas
         self.URI = get_URI(self.request)
 
         # self.response = ""
@@ -24,15 +24,7 @@ class HTTPObject:
         return f"{self.status_code}\nContent-Type: {self.content_type}\n\n{self.json}"
 
 
-def get_status_code():
-    # TODO get status code - post/get??
-    pass
-
-
 def get_content_type(request):
-    # print(">" + request[1][:12] + "<")
-    # print(">" + request[1][14:] + "<")
-
     content_type = ""
     for (e, i) in enumerate(request):
         if request[e][:12] == "Content-Type":
@@ -58,6 +50,7 @@ def get_json(request, content_type):
 def get_method(request):
     return get_request_line(request)[0]
 
+
 # Returns the path as a list ie. /[users]/[id]
 def get_URI(request):
     uri = get_request_line(request)[1].split("/")[1:]
@@ -75,7 +68,7 @@ def get_request_line(request):
     return request[0].split(" ")
 
 
-@DeprecationWarning
-# Returns decoded socket response as a list
-def response_parsing(request):
-    return str(request.decode('utf-8').strip("\\r\\n")).splitlines()
+# @DeprecationWarning
+# # Returns decoded socket response as a list
+# def response_parsing(request):
+#     return str(request.decode('utf-8').strip("\\r\\n")).splitlines()

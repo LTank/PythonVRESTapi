@@ -9,7 +9,7 @@ class Action:
         con = database()
 
         def post():
-            if request.json == "":
+            if request.json == "":  # Might be redundant.
                 return ""
             else:
                 if type(request.json) is not dict:
@@ -40,13 +40,11 @@ class Action:
 
         def get():
             if request.URI[0] == "messages":
-                # request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getallmessages())}"
                 request.json = json.dumps(getallmessages())
+
             elif request.URI[0] == "user":
                 login = request.URI[1].split("=")
                 login[0] = login[0][:-2]  # removes ?p from username
-
-                # request.response = f"HTTP/1.1 200 OK\nContent-Type: application/json\n\n{json.dumps(getUser(login[0], login[1]))}"
                 request.json = json.dumps(getUser(login[0], login[1]))
 
             else:

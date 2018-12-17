@@ -7,7 +7,7 @@ class database:
         db = sqlite3.connect('data/db.db')
         global cursor
         cursor = db.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON;") # PRAGMA (from pragmatic) is a directive.
+        cursor.execute("PRAGMA foreign_keys = ON;")  # PRAGMA (from pragmatic) is a directive.
 
         # Create user table if it doesn't exist
         cursor.execute('''CREATE TABLE IF NOT EXISTS usr(
@@ -26,15 +26,11 @@ class database:
 
 
 def getallmessages():
-    # cursor.execute("SELECT * FROM msg")
-   #  cursor.execute('''select msg_id, msg, usr_id from msg
-   # inner join usr on msg.usr_id = usr.usr_id''')
-
     cursor.execute('''
     select *
     from msg
     inner join (SELECT usr_name, usr_id from usr) usr 
-    where usr.usr_id = msg.usr_id
+    where usr.usr_id = msg.usr_id ORDER BY msg.msg_id DESC 
 ''')
 
     temp_payload = cursor.fetchall()
@@ -54,9 +50,7 @@ def getallmessages():
     return finalpayload
 
 
-
 def getUser(usr_name, usr_pswd):
-
     try:
         cursor.execute(f"select * from usr where usr_name = '{usr_name}' and usr_pswd = '{usr_pswd}'")
         sqldata = cursor.fetchall()
@@ -66,7 +60,7 @@ def getUser(usr_name, usr_pswd):
         payload["usr_name"] = sqldata[0][1]
         payload["usr_pswd"] = sqldata[0][2]
     except:
-        payload = {}
+        payload = "{}"
 
     db.commit()
     db.close()
